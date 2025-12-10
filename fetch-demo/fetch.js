@@ -46,17 +46,19 @@
 // main();
 
 //課題５
-const api = new URL("https://jsonplaceholder.typicode.com/todos");
-api.searchParams.set("completed", "true");
+// const api = new URL("https://jsonplaceholder.typicode.com/todos");
+// api.searchParams.set("completed", "true");
 
-async function main() {
-  try {
-    const res = await fetch(api);
-    if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
-    const data = await res.json();
-    console.log(data.length);
-  } catch (error) {
-    console.error("失敗:", error);
-  }
-}
-main();
+// async function main() {
+//   try {
+//     const res = await fetch(api);
+//     if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+//     const data = await res.json();
+//     console.log(data.length);
+//   } catch (error) {
+//     console.error("失敗:", error);
+//   }
+// }
+// main();
+
+//課題６
