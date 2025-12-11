@@ -1,4 +1,4 @@
-//課題１
+// //課題１
 
 // const api = "https://jsonplaceholder.typicode.com/users/1";
 
@@ -15,7 +15,7 @@
 // }
 // main();
 
-//課題３
+// //課題３
 // const url = "https://zenn.dev/joo_hashi/books/0a9b2c6fac7055/viewer/d079dc";
 
 // async function main() {
@@ -30,7 +30,7 @@
 // }
 // main();
 
-//課題４
+// //課題４
 // const url = "https://zenn.dev/joo_hashi/books/0a9b2c6fac7055/viewer/d079dd";
 
 // async function main() {
@@ -45,7 +45,7 @@
 // }
 // main();
 
-//課題５
+// //課題５
 // const api = new URL("https://jsonplaceholder.typicode.com/todos");
 // api.searchParams.set("completed", "true");
 
@@ -62,21 +62,21 @@
 // main();
 
 //課題５
-// const lostUrl = "https://jsonplaceholder.typicode.com/thttps://httpstat.us/404";
+const lostUrl = "https://jsonplaceholder.typicode.com/thttps://httpstat.us/404";
 
-// async function main() {
-//   try {
-//     const res = await fetch(lostUrl);
-//     if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
-//     const data = await res.json();
-//     console.log(data);
-//   } catch (error) {
-//     console.error("見つかりません");
-//   }
-// }
-// main();
+async function main() {
+  try {
+    const res = await fetch(lostUrl);
+    if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+    const data = await res.json();
+    console.log(data);
+  } catch (error) {
+    console.error("見つかりません");
+  }
+}
+main();
 
-//課題６
+// //課題６
 // const api = new URL("https://jsonplaceholder.typicode.com/comments");
 // api.searchParams.set("postId", "2");
 
@@ -95,7 +95,7 @@
 // }
 // main();
 
-//課題７
+// //課題７
 // const api = "https://jsonplaceholder.typicode.com/posts";
 // async function main() {
 //   try {
@@ -119,5 +119,61 @@
 // }
 // main();
 
-//課題８
-const timeOutUrl = "https://httpstat.us/200?sleep=7000";
+// //課題８
+// const timeOutUrl = "https://httpstat.us/200?sleep=7000";
+
+// async function main() {
+//   const controller = new AbortController();
+//   const timeOut = 3000;
+//   const id = setTimeout(() => controller.abort(), timeOut);
+
+//   try {
+//     const res = await fetch(timeOutUrl, { signal: controller.signal });
+//     clearTimeout(id);
+//     if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+//     const text = await res.text();
+//     console.log("成功：", text.slice(0, 300));
+//   } catch (error) {
+//     if (error.name === "AbortError") {
+//       console.log("タイムアウトしました");
+//     } else {
+//       console.error("失敗:", error);
+//     }
+//   }
+// }
+// main();
+
+//課題９
+const fetchJson = async (url, options = {}) => {
+  try {
+    const res = await fetch(url, {
+      headers: { Accept: "application/json", ...(options.headers ?? {}) },
+      ...options,
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+    return res.json();
+  } catch (error) {
+    console.error("失敗:", error);
+    throw error;
+  }
+};
+
+const fetchText = async (url, options = {}) => {
+  try {
+    const res = await fetch(url, {
+      headers: { Accept: "text/plain", ...(options.headers ?? {}) },
+      ...options,
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+    return res.text();
+  } catch (error) {
+    console.error("失敗:", error);
+    throw error;
+  }
+};
+
+async function main() {
+  const users = await fetchText("https://jsonplaceholder.typicode.com/users");
+  console.log(users.slice(0, 300));
+}
+main();
