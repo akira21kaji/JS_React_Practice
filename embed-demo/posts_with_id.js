@@ -1,9 +1,11 @@
 // file: posts_to_cards.js
-const url = "https://jsonplaceholder.typicode.com/postss?_limit=5";
+const url = "https://jsonplaceholder.typicode.com/posts?_limit=5&_page=1";
+const url2 = "https://jsonplaceholder.typicode.com/posts?_limit=5&_page=2";
 
 const main = async () => {
   const res = await fetch(url);
-  if (!res.ok) {
+
+  if (!res.ok || !res2.ok) {
     const errorUrl = `
     <!DOCTYPE html>
     <html>
@@ -48,6 +50,7 @@ const main = async () => {
 <body>
   <h1>最新投稿</h1>
   ${cards}
+  <a href="${nextPageUrl}">次のページ</a>
 </body>
 </html>
   `;
