@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>自己紹介</title>
+  </head>
+  <body>
+    <div id="app">
+      <p id="count">0</p>
+      <button id="btn">+2</button>
+    </div>
+    <script>
+      let count = 0;
+      const btn = document.getElementById("btn");
+      const countEl = document.getElementById("count");
+
+      btn.addEventListener("click", () => {
+        count += 2;
+        countEl.textContent = count; // 手動でDOM更新
+      });
+    </script>
+  </body>
+</html>
