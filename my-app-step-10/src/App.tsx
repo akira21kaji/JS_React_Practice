@@ -236,55 +236,52 @@ export default function App() {
   const [form, setForm] = useState<FormState>({ email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState<FormState | null>(null);
-  const [isEnterPressed, setIsEnterPressed] = useState(false);
 
   const handleChange = <K extends keyof FormState>(
     key: K,
     value: FormState[K]
   ) => {
+    // ざっくりバリデーション（例）
+    if (!form.email.includes("@")) {
+      setError("メールアドレスの形式が正しくありません");
+    } else if (form.password.length < 6) {
+      setError("パスワードは6文字以上にしてください");
+    } else {
+      setError(null);
+    }
+
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // ざっくりバリデーション（例）
-    if (!form.email.includes("@")) {
-      setError("メールアドレスの形式が正しくありません");
-      return;
-    }
-    if (form.password.length < 6) {
-      setError("パスワードは6文字以上にしてください");
+    if (error) {
       return;
     }
 
-    setError(null);
     setSubmitted(form);
     // 送信後クリアしたい場合
     setForm({ email: "", password: "" });
   };
 
-  const handleCheckEnter = (e: React.FormEvent) => {
-    if (form.email.includes("@") && form.password.length >= 6) {
-      setIsEnterPressed(true);
-      setError(null);
-    } else {
-      setIsEnterPressed(false);
-      setError(
-        "メールアドレスの形式が正しくありませんまたはパスワードは6文字以上にしてください"
-      );
-    }
-  };
+  // const handleCheckEnter = (e: React.FormEvent) => {
+  //   if (form.email.includes("@") && form.password.length >= 6) {
+  //     setIsEnterPressed(true);
+  //     setError(null);
+  //   } else {
+  //     setIsEnterPressed(false);
+  //     setError(
+  //       "メールアドレスの形式が正しくありませんまたはパスワードは6文字以上にしてください"
+  //     );
+  //   }
+  // };
 
   return (
     <main style={{ padding: 24, display: "grid", gap: 12, maxWidth: 420 }}>
       <h1>ログイン（デモ）</h1>
 
-      <form
-        onSubmit={handleSubmit}
-        onKeyDown={handleCheckEnter}
-        style={{ display: "grid", gap: 12 }}
-      >
+      <form onSubmit={handleSubmit} style={{ display: "grid", gap: 12 }}>
         <label>
           メール：
           <input
@@ -306,10 +303,13 @@ export default function App() {
             autoComplete="current-password"
           />
         </label>
-
-        <button type="submit" disabled={!isEnterPressed}>
-          送信
-        </button>
+        {error ? (
+          <button type="submit" disabled={true}>
+            送信
+          </button>
+        ) : (
+          <button type="submit">送信</button>
+        )}
       </form>
 
       {error && <p style={{ color: "crimson" }}>{error}</p>}
